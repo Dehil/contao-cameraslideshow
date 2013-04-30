@@ -1,13 +1,13 @@
 <?php
 /**
  * Camera Slideshow Module
- * 
+ *
  * Copyright (C) 2005-2013 Dennis Hilpmann
- * 
- * @package   CameraSlideshow 
- * @author    Dennis Hilpmann 
- * @license   GNU/LGPL 
- * @copyright Dennis Hilpmann 2013 
+ *
+ * @package   CameraSlideshow
+ * @author    Dennis Hilpmann
+ * @license   GNU/LGPL
+ * @copyright Dennis Hilpmann 2013
  */
 
 
@@ -19,6 +19,7 @@ $GLOBALS['TL_LANG']['tl_camera_slides']['alias'] = array('Slide-Alias', 'Der Sli
 $GLOBALS['TL_LANG']['tl_camera_slides']['type'] = array('Slide Typ', 'Wählen Sie den Slide Typ');
 $GLOBALS['TL_LANG']['tl_camera_slides']['imageId'] = array('Bild', 'Dem Slide ein Bild hinzufügen.');
 $GLOBALS['TL_LANG']['tl_camera_slides']['thumbnailId'] = array('Vorschaubild', 'Dem Slide ein Vorschaubild hinzufügen.');
+$GLOBALS['TL_LANG']['tl_camera_slides']['thumbnailtext'] = array('Text Schaltfläche', 'Dem Slide eine Textschaltfläche hinzufügen.');
 $GLOBALS['TL_LANG']['tl_camera_slides']['published'] = array('Slide veröffentlichen', 'Den Slide auf der Webseite anzeigen.');
 $GLOBALS['TL_LANG']['tl_camera_slides']['start'] = array('Anzeigen ab', 'Den Slide erst ab diesem Tag auf der Webseite anzeigen.');
 $GLOBALS['TL_LANG']['tl_camera_slides']['stop'] = array('Anzeigen bis', 'Den Slide nur bis zu diesem Tag auf der Webseite anzeigen.');

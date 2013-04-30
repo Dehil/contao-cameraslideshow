@@ -1,5 +1,8 @@
-#ctrl_addthumbnail {display:none;}
-.w50-plus{
+#ctrl_addtextthumbnail,
+#ctrl_addimagethumbnail {
+	display:none;
+}
+.w50-plus {
 	height:97px;
 	width: 50%;
 	height:97px;

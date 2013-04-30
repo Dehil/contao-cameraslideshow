@@ -1,19 +1,19 @@
-<?php 
+<?php
 
 /**
  * Camera Slideshow Module
- * 
+ *
  * Copyright (C) 2005-2013 Dennis Hilpmann
- * 
- * @package   CameraSlideshow 
- * @author    Dennis Hilpmann 
- * @license   GNU/LGPL 
- * @copyright Dennis Hilpmann 2013 
+ *
+ * @package   CameraSlideshow
+ * @author    Dennis Hilpmann
+ * @license   GNU/LGPL
+ * @copyright Dennis Hilpmann 2013
  */
 
 
 /**
- * Table tl_camera_slides 
+ * Table tl_camera_slides
  */
 $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 (
@@ -100,19 +100,20 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'				=> array('type', 'addthumbnail', 'addcaption', 'addhtml', 'addlink'),
+		'__selector__'				=> array('type', 'addimagethumbnail', 'addtextthumbnail','addcaption', 'addhtml', 'addlink'),
 		'default'					=> '{title_legend},title,alias,type;',
-		'image'						=> '{title_legend},title,alias,type;{image_legend},imageId,imagesize,addthumbnail;{caption_legend:hide},addcaption;{html_legend:hide},addhtml;{link_legend:hide},addlink;{publish_legend},published,start,stop',
-		'video'						=> '{title_legend},title,alias,type;{video_legend},videoimageId,imagesize,addthumbnail,videourl,videohide;{publish_legend},published,start,stop'
+		'image'						=> '{title_legend},title,alias,type;{image_legend},imageId,imagesize,addimagethumbnail,addtextthumbnail;{caption_legend:hide},addcaption;{html_legend:hide},addhtml;{link_legend:hide},addlink;{publish_legend},published,start,stop',
+		'video'						=> '{title_legend},title,alias,type;{video_legend},videoimageId,imagesize,addimagethumbnail,addtextthumbnail,videourl,videohide;{publish_legend},published,start,stop'
 	),
 
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'addthumbnail'                    => 'thumbnailId,thumbsize',
-		'addcaption'                   	  => 'caption,captioneffect',
-		'addhtml'	                      => 'html,htmlfadein,htmlcameraeffected',
-		'addlink'	                      => 'url,target',
+		'addimagethumbnail'			=> 'thumbnailId,thumbsize',
+		'addtextthumbnail'			=> 'thumbnailtext',
+		'addcaption'				=> 'caption,captioneffect',
+		'addhtml'					=> 'html,htmlfadein,htmlcameraeffected',
+		'addlink'					=> 'url,target',
 	),
 
 	// Fields
@@ -185,13 +186,13 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'eval'                    => array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50-plus'),
 			'sql'                     => "varchar(64) NOT NULL default ''"
 		),
-		'addthumbnail' => array
+		'addimagethumbnail' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_camera_slides']['addthumbnail'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_camera_slides']['addimagethumbnail'],
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
 			'default'				  => '',
-			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr'),
+			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr', 'doNotShow' => true),
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'thumbnailId' => array
@@ -211,6 +212,24 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
 			'eval'                    => array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50-plus'),
 			'sql'                     => "varchar(64) NOT NULL default ''"
+		),
+		'addtextthumbnail' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_camera_slides']['addtextthumbnail'],
+			'exclude'                 => true,
+			'inputType'               => 'checkbox',
+			'default'				  => '',
+			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr', 'doNotShow' => true),
+			'sql'                     => "char(1) NOT NULL default ''"
+		),
+		'thumbnailtext' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_camera_slides']['thumbnailtext'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'textarea',
+			'eval'                    => array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
+			'sql'                     => "text NULL"
 		),
 		'addcaption' => array
 		(
@@ -388,7 +407,7 @@ class tl_camera_slides extends Backend
 	{
 		$date = $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['tstamp']);
 		return '\'' . $arrRow['title'] . '\' – ' . $date;
-	}	
+	}
 
 
 	/**

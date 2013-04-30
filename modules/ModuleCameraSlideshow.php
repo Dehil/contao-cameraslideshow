@@ -45,14 +45,13 @@ class ModuleCameraSlideshow extends \Module
 		$allSlides = $this->Database->prepare("SELECT * FROM tl_camera_slides WHERE pid=? ORDER BY sorting ASC")->execute($this->camera_shows);
 		$images = $this->Database->prepare("SELECT tl_files.id, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.id = tl_camera_slides.imageId OR tl_files.id = tl_camera_slides.videoimageId  AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
 		$thumbnails = $this->Database->prepare("SELECT tl_files.id, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.id = tl_camera_slides.thumbnailId AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
-		$noOptions = array('id', 'tstamp', 'title', 'alias', 'skin', 'randomplay');
+		$noOptions = array('id', 'tstamp', 'title', 'alias', 'skin', 'randomplay', 'thumbnails');
 
 		// create array with all slideshow options
 		if($slideshowSettings->numRows)
 		{
 			$allSlideshowSettings = $slideshowSettings->fetchAllAssoc();
 		}
-
 		// create array with all published slides
 		while($allSlides->next())
 		{
@@ -91,6 +90,12 @@ class ModuleCameraSlideshow extends \Module
 		// send the height to template
 		$this->Template->minHeight = $slideshowSettings->minHeight;
 
+		// indicator for textthumbnail
+		if($slideshowSettings->thumbnails)
+		{
+			$this->Template->thumbnails = $slideshowSettings->thumbnails;
+		}
+
 		// create a slidearray and send to template
 		for($i = 0; $i < count($slidesToShow); $i++)
 		{
@@ -107,7 +112,7 @@ class ModuleCameraSlideshow extends \Module
 			$slides[$i]['image'] = $this->getImage($imagePath[0]['path'], $imageSize[0], $imageSize[1], $imageSize[2]);
 
 			// cache the thumbnail and returns the path
-			if($slidesToShow[$i]['addthumbnail'])
+			if($slidesToShow[$i]['addimagethumbnail'])
 			{
 				$thumbSize = unserialize($slidesToShow[$i]['thumbsize']);
 				$currentThumbId = $slidesToShow[$i]['thumbnailId'];
@@ -117,6 +122,13 @@ class ModuleCameraSlideshow extends \Module
 				sort($thumbPath);
 				$slides[$i]['thumbnail'] = $this->getImage($thumbPath[0]['path'], $thumbSize[0], $thumbSize[1], $thumbSize[2]);
 			}
+
+			// set the text thumbnail
+			if($slidesToShow[$i]['addtextthumbnail'])
+			{
+				$slides[$i]['textbutton'] = $slidesToShow[$i]['thumbnailtext'];
+			}
+
 			if($slidesToShow[$i]['addcaption'])
 			{
 				$slides[$i]['caption'] = $slidesToShow[$i]['caption'];
@@ -181,6 +193,10 @@ class ModuleCameraSlideshow extends \Module
 					$this->Template->javascript .= $currentOption = $keys[$i] . ':' . $allSlideshowSettings[0][$keys[$i]] . ', ';
 				}
 			}
+		}
+		if($allSlideshowSettings[0]['thumbnails'] == 'image')
+		{
+			$this->Template->javascript .= 'thumbnails:true, ';
 		}
 		$this->Template->javascript .= 'imagePath:\'system/modules/cameraslideshow/assets/images/\'';
 		$this->Template->javascript .= '});});';

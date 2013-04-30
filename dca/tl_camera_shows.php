@@ -488,12 +488,11 @@ $GLOBALS['TL_DCA']['tl_camera_shows'] = array
 			'label'			=> &$GLOBALS['TL_LANG']['tl_camera_shows']['thumbnails'],
 			'exclude'		=> true,
 			'inputType'		=> 'select',
-			'options'		=> array('true','false'),
-			//'save_callback' => array('tl_camera_shows', 'setAddThumbnailOption'),
-			'save_callback'           => array(array('tl_camera_shows', 'setAddThumbnailOption')),
+			'options'		=> array('image','text', 'none'),
+			'save_callback' => array(array('tl_camera_shows', 'setAddThumbnailOption')),
 			'default'		=> 'false',
 			'eval'			=> array('mandantory'=>true,'maxlength'=>255,'tl_class'=>'w50'),
-			'sql'			=> "varchar(20) NOT NULL default 'false'"
+			'sql'			=> "varchar(20) NOT NULL default 'none'"
 		),
 		'time'	=>	array
 		(
@@ -603,13 +602,20 @@ class tl_camera_shows extends Backend
 		while($slides->next())
 		{
 			$current = $slides->row();
-			if($varValue == 'true')
+			if($varValue == 'image')
 			{
-				$this->Database->prepare("UPDATE tl_camera_slides SET addthumbnail=". $varValue ." WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=true WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=NULL WHERE id=?")->execute($current['id']);
+			}
+			else if($varValue == 'text')
+			{
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=true WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=NULL WHERE id=?")->execute($current['id']);
 			}
 			else
 			{
-				$this->Database->prepare("UPDATE tl_camera_slides SET addthumbnail=NULL	 WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=NULL WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=NULL WHERE id=?")->execute($current['id']);
 			}
 		}
 		return $varValue;
