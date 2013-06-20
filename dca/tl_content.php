@@ -49,22 +49,12 @@ class tl_cte_camera extends Backend
 	 */
 	public function getCameraShows()
 	{
-		if (!$this->User->isAdmin && !is_array($this->User->cameraslideshow))
-		{
-			return array();
-		}
-
 		$arrCameraShows = array();
 		$objCameraShows = $this->Database->execute("SELECT id, title FROM tl_camera_shows ORDER BY title");
-
 		while ($objCameraShows->next())
 		{
-			if ($this->User->isAdmin || $this->User->hasAccess($objCameraShows->id, 'cameraslideshow'))
-			{
-				$arrCameraShows[$objCameraShows->id] = $objCameraShows->title;
-			}
+			$arrCameraShows[$objCameraShows->id] = $objCameraShows->title;
 		}
-
 		return $arrCameraShows;
 	}
 }
