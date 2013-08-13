@@ -22,7 +22,7 @@ $GLOBALS['TL_LANG']['tl_camera_shows']['alias'] = array('Slideshow-Alias', 'Der 
 $GLOBALS['TL_LANG']['tl_camera_shows']['randomplay'] = array('Zufallswiedergabe', 'Soll die Slideshow in zufälliger Reihenfolge wiedergegeben werden?');
 
 // Slideshow Layout
-$GLOBALS['TL_LANG']['tl_camera_shows']['height'] = array('Höhe', 'Die Höhe in % bezogen auf die Breite der Bilder. (Beispiel: Bei Slideshowbildern mit 960px x 400px beträgt die Höhe = 360/960*100 = 37,5 ≈ 37%.)');
+$GLOBALS['TL_LANG']['tl_camera_shows']['height'] = array('Höhe', 'Die Höhe in % bezogen auf die Breite der Bilder. (Beispiel: Bei Slideshowbildern mit 960px x 360px beträgt die Höhe = 360/960*100 = 37,5%.)');
 $GLOBALS['TL_LANG']['tl_camera_shows']['minHeight'] = array('Minimale Höhe der Slideshow', 'Setzen Sie die minimale Höhe der Slideshow. (Macht besonders auf mobilen Endgeräten Sinn wenn die nachfolgende Option Portrait nicht auf true gesetzt ist.)');
 $GLOBALS['TL_LANG']['tl_camera_shows']['portrait'] = array('Bilder einpassen', 'Bilder werden an Slideshowrahmen angepasst.');
 $GLOBALS['TL_LANG']['tl_camera_shows']['alignment'] = array('Ausrichtung', 'Setzen Sie den Wert der Ausrichtung. Greift bei Bildern die größer als der Slideshowrahnen ist.');
