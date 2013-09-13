@@ -1,20 +1,25 @@
 <?php
 	$version = (int)str_replace('.','',$this->replaceInsertTags( '{{version::*}}' ));
 	$GLOBALS['TL_CSS'][] = 'system/modules/cameraslideshow/assets/css/camera.css';
-	if($version > 300 && $version < 306) {
+	if($version > 300 && $version <= 306) {
 		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/camera.js';
 	} elseif ($version > 306) {
 		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/camera-jq-1-9.js';
 	}
 	$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/jquery.easing.1.3.js';
-	$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/jquery.mobile.customized.min.js';
+	$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/jquery.mobile-1.3.2.min.js';
 	$GLOBALS['TL_HEAD'][] = '<script type="text/javascript">' . $this->javascript . '</script>';
+
 ?>
+<?php if ($this->headline): ?>
+<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+<?php endif; ?>
 
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 	<div class="camera_wrap<?php echo ($this->skin != 'none' ? ' ' . $this->skin : '') ?>" id="camera_wrap_<?php echo $this->cameraId;?>">
 	<?php
-    	foreach ($this->slides as $slide)
+
+	foreach ($this->slides as $slide)
 		{
 			if($slide['type'] == 'image')
 			{
@@ -49,4 +54,32 @@
 		}
 	?>
 	</div>
+	<?php
+	// if thumbnails as textbuttons
+	if($this->thumbnails == 'text')
+	{
+		$GLOBALS['TL_HEAD'][] = '<script type="text/javascript">jQuery(function ($) {"use strict";setTimeout(function () {var $cameraWrap = $("#camera_wrap_' . $this->cameraId . '"),$controls = $cameraWrap.find(".camera_pag_ul > li"),$textControls = $(".camera_text_thumbs li"),size = $textControls.size(),camera = $cameraWrap.data("camera");$textControls.css("width", 100/size + "%").click(function () {if (!camera.isAnimating()) {camera.goto($(this).index());$textControls.removeClass("active");$(this).addClass("active");}});camera.options.onEndTransition = function () {var index = $cameraWrap.find(".camera_target .cameraSlide.cameracurrent").index();$textControls.removeClass("active").eq(index).addClass("active");}}, 10);});</script>';
+		$GLOBALS['TL_CSS'][] = 'system/modules/cameraslideshow/assets/css/camera-textthumb.css';
+		?>
+		<div class="camera_text_thumbs">
+			<ul>
+			<?php
+			foreach ($this->slides as $textthumb)
+			{
+				echo '<li><div class="inner"><div class="arrow"></div>'.  $textthumb['textbutton'] . '</div></li>';
+			}
+			?>
+		</ul>
+	</div>
+	<?php
+	}
+	?>
 </div>
+<?php
+	$heightstring = explode("%", $this->height);
+	$height = $heightstring[0]/100;
+?>
+<script type='text/javascript'>
+	$height = Math.round($('.mod_cameraslideshow_show').width() * <?php echo $height;?>);
+	$('.camera_wrap').height ($height);
+</script>

@@ -405,8 +405,10 @@ class tl_camera_slides extends Backend
 	 */
 	public function listCameraSlides($arrRow)
 	{
+		$imagepath = $this->Database->prepare("SELECT path FROM tl_files WHERE tl_files.id = ?")->execute($arrRow['imageId'])->path;
+		$image = $this->generateImage($this->getImage($imagepath, 100, 60, 'center_center'), $arrRow['title']);
 		$date = $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['tstamp']);
-		return '\'' . $arrRow['title'] . '\' – ' . $date;
+		return $image;
 	}
 
 
