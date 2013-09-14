@@ -107,17 +107,10 @@
 		}
 	}
 
-	var ie = (function(){
-		var undef,
-			v = 3,
-			div = document.createElement('div'),
-			all = div.getElementsByTagName('i');
-		while (
-			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
-			all[0]
-		);
-		return v > 4 ? v : undef;
-	}());
+	$.support.borderRadius = false;
+	$.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+		if(document.body.style[this] !== undefined) $.support.borderRadius = true;
+	});
 
 	var opts = $.extend({}, defaults, opts);
 
@@ -146,7 +139,7 @@
 
 	var loader;
 
-	if(opts.loader=='pie' && ie < 9){
+	if(opts.loader=='pie' && !$.support.borderRadius){
 		loader = 'bar';
 	} else {
 		loader = opts.loader;
