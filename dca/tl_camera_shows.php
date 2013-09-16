@@ -609,8 +609,8 @@ class tl_camera_shows extends Backend
 			}
 			else if($varValue == 'text')
 			{
-				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=true WHERE id=?")->execute($current['id']);
 				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=NULL WHERE id=?")->execute($current['id']);
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=true WHERE id=?")->execute($current['id']);
 			}
 			else
 			{

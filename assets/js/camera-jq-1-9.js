@@ -35,9 +35,9 @@
 
 		loader				: 'pie',	//pie, bar, none (even if you choose "pie", old browsers like IE8- can't display it... they will display always a loading bar)
 
-		loaderColor			: '#eeeeee',
+		loaderColor			: '#434648',
 
-		loaderBgColor		: '#222222',
+		loaderBgColor		: '#b7b7b7',
 
 		loaderOpacity		: .8,	//0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1
 
@@ -107,10 +107,23 @@
 		}
 	}
 
-	$.support.borderRadius = false;
-	$.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
-		if(document.body.style[this] !== undefined) $.support.borderRadius = true;
-	});
+	// $.support.borderRadius = false;
+	// $.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+	// 	if(document.body.style[this] !== undefined) $.support.borderRadius = true;
+	// });
+
+	var ie = (function(){
+		var undef,
+			v = 3,
+			div = document.createElement('div'),
+			all = div.getElementsByTagName('i');
+		while (
+			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+			all[0]
+		);
+		return v > 4 ? v : undef;
+	}());
+
 
 	var opts = $.extend({}, defaults, opts);
 
@@ -139,7 +152,8 @@
 
 	var loader;
 
-	if(opts.loader=='pie' && !$.support.borderRadius){
+	if(opts.loader=='pie' && ie < 9){
+	// if(opts.loader=='pie' && !$.support.borderRadius){
 		loader = 'bar';
 	} else {
 		loader = opts.loader;

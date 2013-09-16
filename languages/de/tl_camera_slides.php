@@ -56,6 +56,7 @@ $GLOBALS['TL_LANG']['tl_camera_slides']['new']    = array('Neuer Slide', 'Erstel
 $GLOBALS['TL_LANG']['tl_camera_slides']['show']   = array('Details', 'Die Details des Slide ID %s anzeigen');
 $GLOBALS['TL_LANG']['tl_camera_slides']['edit']   = array('Slide bearbeiten', 'Slide ID %s bearbeiten');
 $GLOBALS['TL_LANG']['tl_camera_slides']['copy']   = array('Slide duplizieren', 'Slide ID %s duplizieren');
+$GLOBALS['TL_LANG']['tl_camera_slides']['cut']   = array('Slide verschieben', 'Slide ID %s verschieben');
 $GLOBALS['TL_LANG']['tl_camera_slides']['toggle']   = array('Sichtbarkeit', 'Slide ID %s Sichtbarkeit umschalten');
 $GLOBALS['TL_LANG']['tl_camera_slides']['delete'] = array('Slide löschen', 'Slide ID %s löschen');
 

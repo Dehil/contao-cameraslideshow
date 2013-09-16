@@ -1,0 +1,19 @@
+#ctrl_addtextthumbnail,
+#ctrl_addimagethumbnail {
+	display: none;
+}
+.w50-plus {
+	height: auto;
+	width: 50%;
+	float: left;
+}
+.cameraSlideDescription {
+	overflow: hidden;
+}
+.cameraSlideDescription img {
+	float: left;
+	margin-right: 10px;
+}
+.cameraSlideInfo {
+	margin-left: 110px;
+}

@@ -1,9 +1,0 @@
-#ctrl_addtextthumbnail,
-#ctrl_addimagethumbnail {
-	display:none;
-}
-.w50-plus {
-	height:auto;
-	width: 50%;
-	float:left;
-}

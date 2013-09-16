@@ -22,6 +22,14 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
+		'onload_callback' => array
+		(
+			array('tl_camera_slides', 'setThumbnailState')
+		),
+		'oncopy_callback' => array
+		(
+			array('tl_camera_slides', 'setThumbnailState')
+		),
 		'ptable'                      => 'tl_camera_shows',
 		'switchToEdit'                => true,
 		'enableVersioning'            => true,
@@ -71,8 +79,14 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'copy' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_camera_slides']['copy'],
-				'href'                => 'act=copy',
+				'href'                => 'act=paste&amp;mode=copy',
 				'icon'                => 'copy.gif'
+			),
+			'cut' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_camera_slides']['cut'],
+				'href'                => 'act=paste&amp;mode=cut',
+				'icon'                => 'cut.gif'
 			),
 			'delete' => array
 			(
@@ -219,6 +233,7 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
 			'default'				  => '',
+			// 'load_callback'           => array(array('tl_camera_slides', 'setTextThumbnailState')),
 			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr', 'doNotShow' => true),
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
@@ -399,14 +414,52 @@ class tl_camera_slides extends Backend
 	}
 
 	/**
+	 * check status
+	 */
+	public function setThumbnailState()
+	{
+		$thumbnail = $this->Database->prepare("SELECT thumbnails FROM tl_camera_shows WHERE id = ?")->execute(Input::get('pid'))->thumbnails;
+		$addimagethumbnail = $this->Database->prepare("SELECT addimagethumbnail FROM tl_camera_slides WHERE id = ?")->execute(Input::get('id'))->addimagethumbnail;
+		$addtextthumbnail = $this->Database->prepare("SELECT addtextthumbnail FROM tl_camera_slides WHERE id = ?")->execute(Input::get('id'))->addtextthumbnail;
+		if($thumbnail == 'image' && $addimagethumbnail == null)
+			{
+				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=1 WHERE id=?")->execute(Input::get('id'));
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=NULL WHERE id=?")->execute(Input::get('id'));
+			}
+			else if($thumbnail == 'text' && $addtextthumbnail == null)
+			{
+				$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=true WHERE id=?")->execute(Input::get('id'));
+				$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=NULL WHERE id=?")->execute(Input::get('id'));
+			}
+			// else
+			// {
+			// 	$this->Database->prepare("UPDATE tl_camera_slides SET addimagethumbnail=NULL WHERE id=?")->execute(Input::get('id'));
+			// 	$this->Database->prepare("UPDATE tl_camera_slides SET addtextthumbnail=NULL WHERE id=?")->execute(Input::get('id'));
+			// }
+	}
+
+	/**
+	 * check status
+	 */
+	// public function setTextThumbnailState($varValue, DataContainer $dc)
+	// {
+	// 	// print_r($varValue);
+	// 	$varValue = 1;
+	// 	return $varValue;
+	// }
+
+	/**
 	 * Add the type of input field
 	 * @param array
 	 * @return string
 	 */
 	public function listCameraSlides($arrRow)
 	{
+		$imagepath = $this->Database->prepare("SELECT path FROM tl_files WHERE tl_files.id = ?")->execute($arrRow['imageId'])->path;
+		$image = $this->generateImage($this->getImage($imagepath, 100, 60, 'center_center'), $arrRow['title']);
 		$date = $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['tstamp']);
-		return '\'' . $arrRow['title'] . '\' – ' . $date;
+		// return '\'' . $arrRow['title'] . '\' – ' . $date;
+		return '<div class="cameraSlideDescription">' . $image . '<div class="cameraSlideInfo"><strong>Title:</strong> ' . $arrRow['title'] . '<br><strong>Type:</strong> ' . $arrRow['type'] . ($arrRow['addcaption'] ? '<br><strong>Caption:</strong> ' . $arrRow['caption'] . ' <i>('. $arrRow['captioneffect'] . ')</i>' : '') . '</div></div>';
 	}
 
 

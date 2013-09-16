@@ -179,18 +179,15 @@ class ModuleCameraSlideshow extends \Module
 		for($i = 0; $i < count($allSlideshowSettings[0]); $i++)
 		{
 			$currentKey = $keys[$i];
+
 			if (!in_array($currentKey, $noOptions))
 			{
-				if($allSlideshowSettings[0][$keys[$i]] != 'true' && $allSlideshowSettings[0][$keys[$i]] != 'false' && !is_numeric($allSlideshowSettings[0][$keys[$i]])){
-
-					if($currentKey === 'loaderBgColor' || $currentKey === 'loaderColor')
-					{
-						$this->Template->javascript .= $keys[$i] . ':\'#' . $allSlideshowSettings[0][$keys[$i]] . '\', ';
-					} else {
-						$this->Template->javascript .= $keys[$i] . ':\'' . html_entity_decode($allSlideshowSettings[0][$keys[$i]]) . '\', ';
-					}
-				} else {
+				if($allSlideshowSettings[0][$keys[$i]] != 'true' && $allSlideshowSettings[0][$keys[$i]] != 'false' && !is_numeric($allSlideshowSettings[0][$keys[$i]]) && $currentKey != 'loaderColor' && $currentKey != 'loaderBgColor'){
+					$this->Template->javascript .= $keys[$i] . ':\'' . html_entity_decode($allSlideshowSettings[0][$keys[$i]]) . '\', ';
+				} else if($currentKey != 'loaderColor' && $currentKey != 'loaderBgColor') {
 					$this->Template->javascript .= $currentOption = $keys[$i] . ':' . $allSlideshowSettings[0][$keys[$i]] . ', ';
+				} else if($currentKey === 'loaderColor' || $currentKey === 'loaderBgColor') {
+					$this->Template->javascript .= $keys[$i] . ':\'#' . $allSlideshowSettings[0][$keys[$i]] . '\', ';
 				}
 			}
 		}

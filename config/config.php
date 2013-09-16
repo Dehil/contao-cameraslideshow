@@ -17,7 +17,7 @@
 $GLOBALS['BE_MOD']['content']['cameraslideshow'] = array(
 	'tables'       => array('tl_camera_shows', 'tl_camera_slides'),
 	'icon'         => 'system/modules/cameraslideshow/assets/images/camera.png',
-	'stylesheet'   => 'system/modules/cameraslideshow/assets/css/tl_camera_slides.css'
+	'stylesheet'   => 'system/modules/cameraslideshow/assets/css/tl_camera.css'
 );
 
 /**
