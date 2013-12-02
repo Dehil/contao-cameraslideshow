@@ -188,7 +188,7 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'exclude'                 => true,
 			'inputType'               => 'fileTree',
 			'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'mandatory'=>true, 'tl_class'=>'w50-plus'),
-			'sql'					  => "int(10) unsigned NOT NULL default '0'"
+			'sql'                     => "binary(16) NULL",
 		),
 		'imagesize' => array
 		(
@@ -215,7 +215,7 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'exclude'                 => true,
 			'inputType'               => 'fileTree',
 			'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'mandatory'=>true, 'tl_class'=>'w50-plus'),
-			'sql'					  => "int(10) unsigned NOT NULL default '0'"
+			'sql'                     => "binary(16) NULL",
 		),
 		'thumbsize' => array
 		(
@@ -371,7 +371,7 @@ $GLOBALS['TL_DCA']['tl_camera_slides'] = array
 			'exclude'                 => true,
 			'inputType'               => 'fileTree',
 			'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'mandatory'=>true, 'tl_class'=>'w50-plus'),
-			'sql'					  => "int(10) unsigned NOT NULL default '0'"
+			'sql'                     => "binary(16) NULL",
 		),
 		'videohide' => array
 		(
