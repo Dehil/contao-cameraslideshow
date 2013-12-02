@@ -1,9 +1,10 @@
 <?php
-	$version = (int)str_replace('.','',$this->replaceInsertTags( '{{version::*}}' ));
 	$GLOBALS['TL_CSS'][] = 'system/modules/cameraslideshow/assets/css/camera.css';
-	if($version > 300 && $version <= 306) {
+
+	$installedVersion = $this->replaceInsertTags( '{{version::*}}' );
+	if (version_compare($installedVersion, '3.0') <= 0 && version_compare($installedVersion, '3.0.6') <= 0) {
 		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/camera.js';
-	} elseif ($version > 306) {
+	} elseif (version_compare($installedVersion, '3.0.6') > 0) {
 		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/camera-jq-1-9.js';
 	}
 	$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/cameraslideshow/assets/js/jquery.easing.1.3.js';

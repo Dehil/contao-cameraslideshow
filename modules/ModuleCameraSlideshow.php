@@ -43,8 +43,8 @@ class ModuleCameraSlideshow extends \Module
 		// define stuff
 		$slideshowSettings = $this->Database->prepare("SELECT * FROM tl_camera_shows WHERE id=?")->execute($this->camera_shows);
 		$allSlides = $this->Database->prepare("SELECT * FROM tl_camera_slides WHERE pid=? ORDER BY sorting ASC")->execute($this->camera_shows);
-		$images = $this->Database->prepare("SELECT tl_files.id, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.id = tl_camera_slides.imageId OR tl_files.id = tl_camera_slides.videoimageId  AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
-		$thumbnails = $this->Database->prepare("SELECT tl_files.id, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.id = tl_camera_slides.thumbnailId AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
+		$images = $this->Database->prepare("SELECT tl_files.uuid, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.uuid = tl_camera_slides.imageId OR tl_files.uuid = tl_camera_slides.videoimageId  AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
+		$thumbnails = $this->Database->prepare("SELECT tl_files.uuid, tl_files.path FROM tl_files, tl_camera_shows, tl_camera_slides WHERE tl_files.uuid = tl_camera_slides.thumbnailId AND tl_camera_shows.id = tl_camera_slides.pid AND tl_camera_shows.id = ?")->execute($this->camera_shows);
 		$noOptions = array('id', 'tstamp', 'title', 'alias', 'skin', 'randomplay', 'thumbnails');
 
 		// create array with all slideshow options
@@ -105,8 +105,9 @@ class ModuleCameraSlideshow extends \Module
 			// cache the image and returns the path
 			$imageSize = unserialize($slidesToShow[$i]['imagesize']);
 			$currentImageId = ($slidesToShow[$i]['type'] == 'image' ? $currentImageId = $slidesToShow[$i]['imageId'] : $currentImageId = $slidesToShow[$i]['videoimageId']);
+
 			$imagePath = array_filter($allImages, function ($value) use ($currentImageId) {
-				return $currentImageId == $value['id'];
+				return $currentImageId == $value['uuid'];
 			});
 			sort($imagePath);
 			$slides[$i]['image'] = $this->getImage($imagePath[0]['path'], $imageSize[0], $imageSize[1], $imageSize[2]);
@@ -117,7 +118,7 @@ class ModuleCameraSlideshow extends \Module
 				$thumbSize = unserialize($slidesToShow[$i]['thumbsize']);
 				$currentThumbId = $slidesToShow[$i]['thumbnailId'];
 				$thumbPath = array_filter($allThumbnails, function ($value) use ($currentThumbId) {
-					return $currentThumbId == $value['id'];
+					return $currentThumbId == $value['uuid'];
 				});
 				sort($thumbPath);
 				$slides[$i]['thumbnail'] = $this->getImage($thumbPath[0]['path'], $thumbSize[0], $thumbSize[1], $thumbSize[2]);
