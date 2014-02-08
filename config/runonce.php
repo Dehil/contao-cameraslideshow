@@ -22,7 +22,7 @@ class CameraSlideshowRunonce extends Controller
                     $blnDone = true;
                 }
             }
-            // Run the version 3.2 update in two tables
+            // Run the version 3.2 update in three tables
             if ($blnDone == false)
             {
                 Database\Updater::convertSingleField('tl_camera_slides', 'imageId');
