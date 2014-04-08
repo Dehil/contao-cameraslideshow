@@ -767,8 +767,8 @@
 			}
 		}
 
-
-		$(document).on('click',('.camera_stop',camera_thumbs_wrap),function(){
+		$(document).on('click', '.camera_wrap .camera_stop', function(e){
+			console.log('.camera_stop klicked');
 			autoAdv = false;
 			elem.addClass('paused');
 			if($('.camera_stop',camera_thumbs_wrap).length){
@@ -784,7 +784,8 @@
 			}
 		});
 
-		$(document).on('click',('.camera_play',camera_thumbs_wrap),function(){
+		$(document).on('click', '.camera_wrap .camera_play', function(e){
+			console.log('.camera_play klicked');
 			autoAdv = true;
 			elem.removeClass('paused');
 			if($('.camera_play',camera_thumbs_wrap).length){
