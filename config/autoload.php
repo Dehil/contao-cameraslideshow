@@ -2,9 +2,9 @@
 
 /**
  * Contao Open Source CMS
- * 
- * Copyright (C) 2005-2013 Leo Feyer
- * 
+ *
+ * Copyright (c) 2005-2015 Leo Feyer
+ *
  * @package Cameraslideshow
  * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
@@ -27,6 +27,10 @@ ClassLoader::addClasses(array
 (
 	// Modules
 	'CameraSlideshow\ModuleCameraSlideshow' => 'system/modules/cameraslideshow/modules/ModuleCameraSlideshow.php',
+
+	// Models
+	'CameraSlidesModel'                     => 'system/modules/cameraslideshow/models/CameraSlidesModel.php',
+	'CameraShowsModel'                      => 'system/modules/cameraslideshow/models/CameraShowsModel.php',
 ));
 
 

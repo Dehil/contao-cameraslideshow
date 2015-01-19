@@ -34,3 +34,5 @@ array_insert($GLOBALS['TL_CTE']['media'], 10, array
 (
 	'cameraslideshow_show' => 'ModuleCameraSlideshow',
 ));
+
+// $GLOBALS['TL_MODELS']['tl_camera_slides'] = 'CameraSlideshow\Models\CameraSlides';
